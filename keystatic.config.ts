@@ -8,6 +8,8 @@ export default config({
   storage: import.meta.env.DEV
     ? { kind: 'local' }
     : { kind: 'github', repo: { owner: 'HannahsHands', name: 'hannahshands-web' } },
+  // Keystatic Cloud handles the GitHub login for /keystatic on the live site.
+  cloud: { project: 'hannahs-hands/hannahshands-web' },
   ui: {
     brand: { name: "Hannah's Hands" },
   },
