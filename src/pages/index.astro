@@ -1,0 +1,227 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import EventCard from '../components/EventCard.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { reader, byOrder } from '../lib/reader';
+
+const events = byOrder(await reader.collections.events.all());
+const services = byOrder(await reader.collections.services.all());
+const testimonials = byOrder(
+  (await reader.collections.testimonials.all()).filter((t) => t.entry.featured)
+);
+const settings = (await reader.singletons.settings.read())!;
+
+const heroQuote =
+  testimonials.find((t) => t.entry.context.includes('WIMBIZ')) ?? testimonials[0];
+---
+<Layout>
+  <Header />
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">UK Bespoke Event Company</span>
+        <h1>Bespoke events,<br /><em>beautifully delivered.</em></h1>
+        <p class="lede">Conferences, galas and celebrations for the leaders and
+           organisations shaping culture — planned end to end, styled to perfection.</p>
+        <div class="hero-cta">
+          <a href="#contact" class="pill pill--gold">Book a Consultation →</a>
+          <a href="#work" class="pill pill--ghost">View Our Work</a>
+        </div>
+        <div class="hero-trust">
+          <div><b>8+</b> years of experience</div>
+          <div><b>Where</b> service meets luxury</div>
+          <div><b>UK</b>-wide delivery</div>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="frame"><img src="/images/hero.jpg" alt="An elegant event styled by Hannah's Hands" /></div>
+        {heroQuote && (
+          <div class="float-card">
+            <div class="stars">★★★★★</div>
+            <q>{heroQuote.entry.quote}</q>
+            <cite>— {heroQuote.entry.author}, {heroQuote.entry.context}</cite>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="wrap">
+      {settings.stats.map((s) => (
+        <div class="stat"><div class="n">{s.number}</div><div class="l">{s.label}</div></div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about pad" id="about">
+    <div class="wrap grid">
+      <div class="mark"><img src="/logo.png" alt="Hannah's Hands crest" /></div>
+      <div>
+        <span class="ornament">✦ ✦ ✦</span>
+        <h2>Where service meets luxury</h2>
+        <p>Since our inception, Hannah's Hands has been synonymous with exceptional event
+           planning and execution. Our journey began with pro bono projects, where we honed
+           our craft and built a reputation for excellence.</p>
+        <p>Today, with over eight years of experience, we partner with organisations across
+           industries to deliver bespoke events that inspire, engage and leave lasting
+           impressions — with meticulous attention to every detail.</p>
+        <div class="founder">
+          <div class="av">OO</div>
+          <div>
+            <b>Olajumoke H. Osadola</b>
+            <span>Founder &amp; Chief Planner</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services pad" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="ornament">✦ WHAT WE DO ✦</span>
+        <h2>A full-service event partner</h2>
+        <p>From the first idea to the final thank-you, we handle every moving part so you
+           can be present at your own event.</p>
+      </div>
+      <div class="svc-grid">
+        {services.map((s) => (
+          <ServiceCard number={s.entry.number} title={s.entry.title} description={s.entry.description} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="work pad" id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="ornament">✦ OUR PORTFOLIO ✦</span>
+        <h2>Events we create</h2>
+        <p>Trusted to deliver flagship conferences, galas and gatherings across the UK.</p>
+      </div>
+      <div class="cat-grid">
+        {events.map((e) => (
+          <EventCard
+            slug={e.slug}
+            title={e.entry.title}
+            category={e.entry.category}
+            coverImage={e.entry.coverImage}
+            year={e.entry.year}
+          />
+        ))}
+        <a class="cat more" href="/portfolio">
+          <div><h3>See the full portfolio</h3><span>Every signature event →</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="quotes pad" id="quotes">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="ornament">✦ KIND WORDS ✦</span>
+        <h2>Loved by our clients</h2>
+        <p>The reaction we plan for — every single time.</p>
+      </div>
+      <div class="q-grid">
+        {testimonials.map((t) => (
+          <TestimonialCard author={t.entry.author} context={t.entry.context} quote={t.entry.quote} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand bookHref="#contact" />
+
+  <ContactSection email={settings.email} instagram={settings.instagram} facebook={settings.facebook} />
+
+  <Footer email={settings.email} instagram={settings.instagram} facebook={settings.facebook} tagline={settings.tagline} />
+</Layout>
+
+<style>
+  /* HERO */
+  .hero{background:radial-gradient(120% 120% at 80% 0%,var(--green-700),var(--green-900) 60%);
+    color:#f3ecdc;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(60% 50% at 15% 90%,rgba(195,154,76,.14),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;
+    padding-top:70px;padding-bottom:90px}
+  .hero h1{font-size:clamp(2.7rem,5vw,4.1rem);margin:20px 0 20px;color:#fbf6ea}
+  .hero h1 em{font-style:italic;color:var(--gold-2)}
+  .hero p.lede{font-size:1.06rem;color:#d6cfbe;max-width:34ch;font-weight:300}
+  .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+  .hero-trust{display:flex;gap:26px;margin-top:38px;font-size:.78rem;color:#b9b3a1;letter-spacing:.03em;flex-wrap:wrap}
+  .hero-trust b{color:var(--gold-2);font-weight:500}
+  .hero-media{position:relative}
+  .hero-media .frame{border-radius:24px 24px 120px 24px;overflow:hidden;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.6);border:1px solid rgba(217,184,119,.25)}
+  .hero-media .frame img{height:520px;width:100%;object-fit:cover}
+  .float-card{position:absolute;left:-28px;bottom:38px;background:var(--paper);color:var(--ink);
+    border-radius:16px;padding:16px 20px;box-shadow:0 24px 50px -20px rgba(0,0,0,.5);max-width:250px}
+  .float-card .stars{color:var(--gold);font-size:.85rem;letter-spacing:2px}
+  .float-card q{display:block;font-family:var(--serif);font-style:italic;font-size:.98rem;margin:6px 0 8px;line-height:1.35}
+  .float-card cite{font-style:normal;font-size:.72rem;color:var(--muted-2);letter-spacing:.04em}
+
+  /* STATS */
+  .stats{background:var(--green-900);color:#efe8d7;border-top:1px solid rgba(217,184,119,.16)}
+  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:38px 28px}
+  .stat{text-align:center;position:relative}
+  .stat+.stat::before{content:"";position:absolute;left:-10px;top:12%;height:76%;width:1px;background:rgba(217,184,119,.2)}
+  .stat .n{font-family:var(--serif);font-size:2.5rem;color:var(--gold-2);line-height:1}
+  .stat .l{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#b7b09d;margin-top:8px}
+
+  /* ABOUT */
+  .about{background:var(--cream)}
+  .about .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+  .about .mark{background:var(--paper);border:1px solid var(--cream-2);border-radius:22px;padding:44px;
+    text-align:center;box-shadow:0 30px 60px -40px rgba(60,45,15,.4)}
+  .about .mark img{width:230px;margin:0 auto}
+  .about h2{font-size:clamp(2rem,3.4vw,2.8rem);color:var(--green-800);margin:14px 0 18px}
+  .about p{color:var(--muted);margin-bottom:16px}
+  .founder{display:flex;align-items:center;gap:14px;margin-top:26px;padding-top:24px;border-top:1px solid var(--cream-2)}
+  .founder .av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    display:grid;place-items:center;font-family:var(--serif);color:#3a2c0e;font-size:1.2rem}
+  .founder b{display:block;font-family:var(--serif);color:var(--green-800);font-size:1.05rem}
+  .founder span{font-size:.8rem;color:var(--muted-2);letter-spacing:.04em}
+
+  /* SERVICES */
+  .services{background:var(--paper)}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+
+  /* PORTFOLIO */
+  .work{background:radial-gradient(120% 120% at 20% 0%,var(--green-700),var(--green-900) 65%);color:#efe8d7}
+  .work .sec-head h2{color:#fbf6ea}
+  .work .sec-head p{color:#c7c0ad}
+  .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .cat.more{background:linear-gradient(135deg,var(--gold),#a97f34);display:grid;place-items:center;
+    text-align:center;color:#3a2c0e;border-radius:18px;min-height:300px;text-decoration:none}
+  .cat.more h3{color:#3a2c0e;font-size:1.5rem;font-family:var(--serif)}
+  .cat.more span{display:block;margin-top:8px;font-size:.85rem;letter-spacing:.04em}
+
+  /* TESTIMONIALS */
+  .quotes{background:var(--cream)}
+  .q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+
+  @media(max-width:900px){
+    .hero .wrap,.about .grid{grid-template-columns:1fr;gap:40px}
+    .hero-media .frame img{height:380px}
+    .svc-grid,.cat-grid,.q-grid,.stats .wrap{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:560px){
+    .svc-grid,.cat-grid,.q-grid,.stats .wrap{grid-template-columns:1fr}
+    .stat+.stat::before{display:none}
+  }
+</style>

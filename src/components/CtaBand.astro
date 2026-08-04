@@ -1,0 +1,26 @@
+---
+interface Props {
+  bookHref?: string;
+}
+const { bookHref = '/contact' } = Astro.props;
+---
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">Let's begin</span>
+    <h2>Let's plan something unforgettable.</h2>
+    <p>Tell us about your event and we'll shape a bespoke plan that fits your vision,
+       your audience and your budget.</p>
+    <div class="row">
+      <a href={bookHref} class="pill pill--gold">Book a Consultation</a>
+      <a href="/deck/hannahs-hands-company-profile.pdf" class="pill pill--ghost" target="_blank" rel="noopener">Download Company Profile</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band{background:var(--green-900);color:#f3ecdc;text-align:center}
+  .band .wrap{padding:82px 28px}
+  .band h2{font-size:clamp(2rem,4vw,3.1rem);color:#fbf6ea}
+  .band p{color:#c7c0ad;max-width:46ch;margin:16px auto 30px}
+  .band .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+</style>

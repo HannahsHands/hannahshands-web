@@ -1,0 +1,63 @@
+---
+// Self-hosted fonts (no Google CDN dependency)
+import '@fontsource-variable/playfair-display';
+import '@fontsource/poppins/300.css';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+const {
+  title = "Hannah's Hands — Bespoke Event Company",
+  description = 'Bespoke event planning where service meets luxury. Conferences, galas and celebrations delivered across the UK.',
+  image = '/og-image.png',
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://hannahshands.netlify.app');
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImage = new URL(image, site).href;
+
+// T9: privacy-friendly analytics. Only loads when the token is set in the
+// deploy environment (PUBLIC_CF_BEACON_TOKEN) — nothing loads locally.
+const cfToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hannah's Hands Event Company" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {cfToken && (
+      <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token": "${cfToken}"}`}></script>
+    )}
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

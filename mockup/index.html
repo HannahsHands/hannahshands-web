@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hannah's Hands — Bespoke Event Company</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#0d271e; --green-800:#123a2c; --green-700:#1a4a39;
+    --cream:#f6f0e3; --cream-2:#efe6d3; --paper:#fbf7ee;
+    --gold:#c39a4c; --gold-2:#d9b877; --gold-soft:#e9d3a6;
+    --ink:#222a20; --muted:#5f5a49; --muted-2:#7a7360;
+    --serif:"Playfair Display","Didot","Bodoni 72",Georgia,serif;
+    --sans:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.65;font-weight:300;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:.2px}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;font-weight:500;color:var(--gold)}
+  .pill{display:inline-flex;align-items:center;gap:.5em;padding:.85em 1.6em;border-radius:100px;font-family:var(--sans);
+    font-weight:500;font-size:.9rem;letter-spacing:.02em;cursor:pointer;border:1px solid transparent;transition:.25s}
+  .pill--gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#3a2c0e;box-shadow:0 10px 26px -12px rgba(180,140,60,.7)}
+  .pill--gold:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(180,140,60,.8)}
+  .pill--ghost{background:transparent;border-color:rgba(255,255,255,.4);color:#fff}
+  .pill--ghost:hover{background:rgba(255,255,255,.1)}
+  .pill--ghost-dark{background:transparent;border-color:var(--gold);color:var(--green-800)}
+  .pill--ghost-dark:hover{background:rgba(195,154,76,.12)}
+
+  /* header */
+  header{position:sticky;top:0;z-index:50;background:rgba(13,39,30,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(217,184,119,.18)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:46px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .brand .bt{font-family:var(--serif);color:#f3ecdc;font-size:1.15rem;letter-spacing:.16em;line-height:1}
+  .brand .bt small{display:block;font-size:.52rem;letter-spacing:.42em;color:var(--gold-2);margin-top:4px;font-family:var(--sans)}
+  nav.menu{display:flex;gap:30px}
+  nav.menu a{color:#e8e2d2;font-size:.82rem;letter-spacing:.06em;font-weight:300;position:relative;padding:4px 0}
+  nav.menu a:hover{color:var(--gold-2)}
+  nav.menu a::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--gold-2);transition:.25s}
+  nav.menu a:hover::after{width:100%}
+  .nav-cta{display:flex;align-items:center;gap:18px}
+  .nav-phone{color:#e8e2d2;font-size:.8rem;letter-spacing:.04em}
+  .nav-phone b{color:var(--gold-2);font-weight:500}
+  .burger{display:none}
+
+  /* hero */
+  .hero{background:radial-gradient(120% 120% at 80% 0%,var(--green-700),var(--green-900) 60%);color:#f3ecdc;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(60% 50% at 15% 90%,rgba(195,154,76,.14),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-top:70px;padding-bottom:90px}
+  .hero h1{font-size:clamp(2.7rem,5vw,4.1rem);margin:20px 0 20px;color:#fbf6ea}
+  .hero h1 em{font-style:italic;color:var(--gold-2)}
+  .hero p.lede{font-size:1.06rem;color:#d6cfbe;max-width:34ch;font-weight:300}
+  .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+  .hero-trust{display:flex;gap:26px;margin-top:38px;font-size:.78rem;color:#b9b3a1;letter-spacing:.03em}
+  .hero-trust b{color:var(--gold-2);font-weight:500}
+  .hero-media{position:relative}
+  .hero-media .frame{border-radius:24px 24px 120px 24px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.6);border:1px solid rgba(217,184,119,.25)}
+  .hero-media .frame img{height:520px;width:100%;object-fit:cover}
+  .float-card{position:absolute;left:-28px;bottom:38px;background:var(--paper);color:var(--ink);border-radius:16px;
+    padding:16px 20px;box-shadow:0 24px 50px -20px rgba(0,0,0,.5);max-width:250px}
+  .float-card .stars{color:var(--gold);font-size:.85rem;letter-spacing:2px}
+  .float-card q{display:block;font-family:var(--serif);font-style:italic;font-size:.98rem;margin:6px 0 8px;line-height:1.35}
+  .float-card cite{font-style:normal;font-size:.72rem;color:var(--muted-2);letter-spacing:.04em}
+
+  /* stats */
+  .stats{background:var(--green-900);color:#efe8d7;border-top:1px solid rgba(217,184,119,.16)}
+  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:38px 28px}
+  .stat{text-align:center;position:relative}
+  .stat+.stat::before{content:"";position:absolute;left:-10px;top:12%;height:76%;width:1px;background:rgba(217,184,119,.2)}
+  .stat .n{font-family:var(--serif);font-size:2.5rem;color:var(--gold-2);line-height:1}
+  .stat .l{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#b7b09d;margin-top:8px}
+
+  /* section shells */
+  section{position:relative}
+  .pad{padding:96px 0}
+  .sec-head{max-width:640px;margin:0 auto 54px;text-align:center}
+  .sec-head h2{font-size:clamp(2rem,3.6vw,3rem);margin:14px 0 12px;color:var(--green-800)}
+  .sec-head p{color:var(--muted);font-size:1.02rem}
+  .ornament{color:var(--gold);letter-spacing:.4em;font-size:.8rem}
+
+  /* about */
+  .about{background:var(--cream)}
+  .about .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+  .about .mark{background:var(--paper);border:1px solid var(--cream-2);border-radius:22px;padding:44px;text-align:center;
+    box-shadow:0 30px 60px -40px rgba(60,45,15,.4)}
+  .about .mark img{width:230px;margin:0 auto}
+  .about h2{font-size:clamp(2rem,3.4vw,2.8rem);color:var(--green-800);margin:14px 0 18px}
+  .about p{color:var(--muted);margin-bottom:16px}
+  .founder{display:flex;align-items:center;gap:14px;margin-top:26px;padding-top:24px;border-top:1px solid var(--cream-2)}
+  .founder .av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    display:grid;place-items:center;font-family:var(--serif);color:#3a2c0e;font-size:1.2rem}
+  .founder b{display:block;font-family:var(--serif);color:var(--green-800);font-size:1.05rem}
+  .founder span{font-size:.8rem;color:var(--muted-2);letter-spacing:.04em}
+
+  /* services */
+  .services{background:var(--paper)}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .svc{background:var(--cream);border:1px solid var(--cream-2);border-radius:18px;padding:32px 28px;transition:.28s}
+  .svc:hover{transform:translateY(-4px);box-shadow:0 26px 50px -30px rgba(60,45,15,.5);border-color:var(--gold-soft)}
+  .svc .ic{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#173d2e,#0e2a20);
+    display:grid;place-items:center;color:var(--gold-2);font-family:var(--serif);font-size:1.15rem;margin-bottom:18px}
+  .svc h3{font-size:1.22rem;color:var(--green-800);margin-bottom:8px}
+  .svc p{font-size:.9rem;color:var(--muted)}
+
+  /* portfolio categories */
+  .work{background:radial-gradient(120% 120% at 20% 0%,var(--green-700),var(--green-900) 65%);color:#efe8d7}
+  .work .sec-head h2{color:#fbf6ea}
+  .work .sec-head p{color:#c7c0ad}
+  .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .cat{position:relative;border-radius:18px;overflow:hidden;min-height:300px;box-shadow:0 30px 60px -34px rgba(0,0,0,.7)}
+  .cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:.5s}
+  .cat:hover img{transform:scale(1.06)}
+  .cat::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,30,22,.05),rgba(9,30,22,.86))}
+  .cat .txt{position:absolute;left:22px;bottom:20px;right:22px;z-index:2}
+  .cat .k{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-2)}
+  .cat h3{color:#fff;font-size:1.4rem;margin-top:4px}
+  .cat.more{background:linear-gradient(135deg,var(--gold),#a97f34);display:grid;place-items:center;text-align:center;color:#3a2c0e}
+  .cat.more::after{display:none}
+  .cat.more h3{color:#3a2c0e;font-size:1.5rem}
+  .cat.more span{display:block;margin-top:8px;font-size:.85rem;letter-spacing:.04em}
+
+  /* testimonials */
+  .quotes{background:var(--cream)}
+  .q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .qcard{background:var(--paper);border:1px solid var(--cream-2);border-radius:18px;padding:32px 28px;position:relative}
+  .qcard .mark{font-family:var(--serif);font-size:3.4rem;color:var(--gold-soft);line-height:.6;height:26px}
+  .qcard p{font-family:var(--serif);font-style:italic;font-size:1.06rem;color:var(--ink);margin:6px 0 18px}
+  .qcard .who{display:flex;align-items:center;gap:12px}
+  .qcard .who .d{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#173d2e,#0e2a20);
+    display:grid;place-items:center;color:var(--gold-2);font-family:var(--serif)}
+  .qcard .who b{font-family:var(--sans);font-weight:500;font-size:.9rem;color:var(--green-800)}
+  .qcard .who span{display:block;font-size:.74rem;color:var(--muted-2)}
+
+  /* CTA band */
+  .band{background:var(--green-900);color:#f3ecdc;text-align:center}
+  .band .wrap{padding:82px 28px}
+  .band h2{font-size:clamp(2rem,4vw,3.1rem);color:#fbf6ea}
+  .band p{color:#c7c0ad;max-width:46ch;margin:16px auto 30px}
+  .band .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  /* contact */
+  .contact{background:var(--paper)}
+  .contact .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px}
+  .contact h2{font-size:clamp(1.9rem,3.2vw,2.6rem);color:var(--green-800);margin:12px 0 16px}
+  .contact .info p{color:var(--muted);margin-bottom:22px;max-width:40ch}
+  .cinfo{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+  .cinfo .ic{width:42px;height:42px;border-radius:12px;background:var(--cream);border:1px solid var(--cream-2);
+    display:grid;place-items:center;color:var(--gold);flex:none}
+  .cinfo b{display:block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green-800)}
+  .cinfo span{font-size:.95rem;color:var(--muted)}
+  form{background:var(--cream);border:1px solid var(--cream-2);border-radius:20px;padding:34px}
+  .field{margin-bottom:16px}
+  label{display:block;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-bottom:7px}
+  input,select,textarea{width:100%;padding:13px 15px;border:1px solid var(--cream-2);border-radius:11px;background:var(--paper);
+    font-family:var(--sans);font-size:.92rem;color:var(--ink);font-weight:300}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  form .pill--gold{width:100%;justify-content:center;margin-top:6px;border:none}
+
+  /* footer */
+  footer{background:var(--green-900);color:#cfc8b6;border-top:1px solid rgba(217,184,119,.16)}
+  .foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding:64px 28px 30px}
+  .foot img{height:64px;margin-bottom:16px}
+  .foot p{font-size:.9rem;max-width:34ch;color:#b0a992}
+  .foot h4{font-family:var(--sans);font-weight:500;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2);margin-bottom:16px}
+  .foot a{display:block;font-size:.9rem;color:#cfc8b6;margin-bottom:10px}
+  .foot a:hover{color:var(--gold-2)}
+  .copy{border-top:1px solid rgba(217,184,119,.14);text-align:center;padding:20px;font-size:.78rem;color:#8f8874;letter-spacing:.03em}
+  .copy .gold{color:var(--gold-2)}
+
+  @media(max-width:900px){
+    nav.menu,.nav-phone{display:none}
+    .hero .wrap,.about .grid,.contact .grid{grid-template-columns:1fr;gap:40px}
+    .hero-media .frame img{height:380px}
+    .svc-grid,.cat-grid,.q-grid,.stats .wrap{grid-template-columns:1fr 1fr}
+    .foot{grid-template-columns:1fr 1fr}
+    .row2{grid-template-columns:1fr}
+  }
+  @media(max-width:560px){
+    .svc-grid,.cat-grid,.q-grid,.stats .wrap,.foot{grid-template-columns:1fr}
+    .stat+.stat::before{display:none}
+    .hero h1{font-size:2.4rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Hannah's Hands">
+      <div class="bt">HANNAH'S HANDS<small>EVENT COMPANY</small></div>
+    </div>
+    <nav class="menu">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#work">Portfolio</a>
+      <a href="#quotes">Testimonials</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="nav-phone">Speak to us · <b>hannah'shands</b></span>
+      <a href="#contact" class="pill pill--gold">Book a Consultation</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">UK Bespoke Event Company</span>
+      <h1>Bespoke events,<br><em>beautifully delivered.</em></h1>
+      <p class="lede">Conferences, galas and celebrations for the leaders and organisations shaping culture — planned end to end, styled to perfection.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="pill pill--gold">Book a Consultation →</a>
+        <a href="#work" class="pill pill--ghost">View Our Work</a>
+      </div>
+      <div class="hero-trust">
+        <div><b>8+</b> years of experience</div>
+        <div><b>Where</b> service meets luxury</div>
+        <div><b>UK</b>-wide delivery</div>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="frame"><img src="assets/photos/hero.png" alt="An elegant event styled by Hannah's Hands"></div>
+      <div class="float-card">
+        <div class="stars">★★★★★</div>
+        <q>You're the premium Executive Planner. Welldone!</q>
+        <cite>— Tomi, WIMBIZ London</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="n">8+</div><div class="l">Years Experience</div></div>
+    <div class="stat"><div class="n">7</div><div class="l">Signature Services</div></div>
+    <div class="stat"><div class="n">2018</div><div class="l">Flagship Since</div></div>
+    <div class="stat"><div class="n">100%</div><div class="l">Bespoke</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about pad" id="about">
+  <div class="wrap grid">
+    <div class="mark"><img src="assets/logo.png" alt="Hannah's Hands crest"></div>
+    <div>
+      <span class="ornament">✦ ✦ ✦</span>
+      <h2>Where service meets luxury</h2>
+      <p>Since our inception, Hannah's Hands has been synonymous with exceptional event planning and execution. Our journey began with pro bono projects, where we honed our craft and built a reputation for excellence.</p>
+      <p>Today, with over eight years of experience, we partner with organisations across industries to deliver bespoke events that inspire, engage and leave lasting impressions — with meticulous attention to every detail.</p>
+      <div class="founder">
+        <div class="av">OO</div>
+        <div>
+          <b>Olajumoke H. Osadola</b>
+          <span>Founder &amp; Chief Planner</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services pad" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="ornament">✦ WHAT WE DO ✦</span>
+      <h2>A full-service event partner</h2>
+      <p>From the first idea to the final thank-you, we handle every moving part so you can be present at your own event.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc"><div class="ic">01</div><h3>Corporate Event Planning</h3><p>From ideation to execution, we design events that align with your business goals.</p></div>
+      <div class="svc"><div class="ic">02</div><h3>Event Design &amp; Styling</h3><p>Creating aesthetically pleasing environments that captivate and inspire.</p></div>
+      <div class="svc"><div class="ic">03</div><h3>Venue Sourcing</h3><p>Identifying and securing the perfect location for your event.</p></div>
+      <div class="svc"><div class="ic">04</div><h3>Vendor Management</h3><p>Partnering with trusted vendors to ensure seamless delivery of services.</p></div>
+      <div class="svc"><div class="ic">05</div><h3>Event Logistics</h3><p>Managing timelines, schedules and on-site coordination to perfection.</p></div>
+      <div class="svc"><div class="ic">06</div><h3>Budget Management</h3><p>Delivering exceptional value while staying within budget constraints.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work pad" id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="ornament">✦ OUR PORTFOLIO ✦</span>
+      <h2>Events we create</h2>
+      <p>Trusted to deliver flagship conferences, galas and gatherings across the UK.</p>
+    </div>
+    <div class="cat-grid">
+      <a class="cat"><img src="assets/photos/cat-conf.png" alt="Conference"><div class="txt"><div class="k">Conferences &amp; Summits</div><h3>VLC UK · WIMBIZ London</h3></div></a>
+      <a class="cat"><img src="assets/photos/cat-gala.png" alt="Gala"><div class="txt"><div class="k">Galas &amp; Awards</div><h3>Nigeria–UK Sports Awards</h3></div></a>
+      <a class="cat"><img src="assets/photos/cat-corporate.png" alt="Corporate"><div class="txt"><div class="k">Corporate &amp; Networking</div><h3>Product Launches · Mixers</h3></div></a>
+      <a class="cat"><img src="assets/photos/cat-conf.png" alt="Leadership"><div class="txt"><div class="k">Leadership &amp; Faith</div><h3>Kingdom Leaders Camp UK</h3></div></a>
+      <a class="cat"><img src="assets/photos/cat-gala.png" alt="Charity"><div class="txt"><div class="k">Charity &amp; Concerts</div><h3>Peterborough Alive · since 2018</h3></div></a>
+      <a class="cat more"><div><h3>See the full portfolio</h3><span>25+ signature events →</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="quotes pad" id="quotes">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="ornament">✦ KIND WORDS ✦</span>
+      <h2>Loved by our clients</h2>
+      <p>The reaction we plan for — every single time.</p>
+    </div>
+    <div class="q-grid">
+      <div class="qcard">
+        <div class="mark">"</div>
+        <p>Everything about the quality of VLC UK screamed "perfection." Even my gifts were thoughtful, and I truly love them!</p>
+        <div class="who"><div class="d">A</div><div><b>Adérónkẹ Ige</b><span>Visionary Leadership Conference</span></div></div>
+      </div>
+      <div class="qcard">
+        <div class="mark">"</div>
+        <p>What an experience! Thank you for your hospitality and for a beautifully put-together, life-changing encounter.</p>
+        <div class="who"><div class="d">D</div><div><b>Adebola "DSK" Kupoluyi</b><span>Client</span></div></div>
+      </div>
+      <div class="qcard">
+        <div class="mark">"</div>
+        <p>You're the premium Executive Planner, my sis. Thank you for planning such an excellent event — well done!</p>
+        <div class="who"><div class="d">T</div><div><b>Tomiisin Balogun</b><span>WIMBIZ London</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">Let's begin</span>
+    <h2>Let's plan something unforgettable.</h2>
+    <p>Tell us about your event and we'll shape a bespoke plan that fits your vision, your audience and your budget.</p>
+    <div class="row">
+      <a href="#contact" class="pill pill--gold">Book a Consultation</a>
+      <a href="#" class="pill pill--ghost">Download Company Profile</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact pad" id="contact">
+  <div class="wrap grid">
+    <div class="info">
+      <span class="ornament">✦ GET IN TOUCH ✦</span>
+      <h2>Start the conversation</h2>
+      <p>Share a few details and Olajumoke will personally be in touch to plan your consultation.</p>
+      <div class="cinfo"><div class="ic">✉</div><div><b>Email</b><span>hannah'shands@gmail.com</span></div></div>
+      <div class="cinfo"><div class="ic">◎</div><div><b>Instagram</b><span>@hannahshandseventcompany</span></div></div>
+      <div class="cinfo"><div class="ic">f</div><div><b>Facebook</b><span>@hannahshandseventcompany</span></div></div>
+    </div>
+    <form onsubmit="event.preventDefault();this.querySelector('.note').style.display='block';">
+      <div class="row2">
+        <div class="field"><label>Full name</label><input placeholder="Your name"></div>
+        <div class="field"><label>Email</label><input placeholder="you@email.com"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Event type</label>
+          <select><option>Conference / Summit</option><option>Gala / Awards</option><option>Corporate / Networking</option><option>Leadership / Faith</option><option>Charity / Concert</option><option>Other</option></select>
+        </div>
+        <div class="field"><label>Preferred date</label><input placeholder="e.g. Oct 2026"></div>
+      </div>
+      <div class="field"><label>Tell us about your event</label><textarea rows="4" placeholder="Guests, location, vision…"></textarea></div>
+      <button class="pill pill--gold">Request My Consultation</button>
+      <p class="note" style="display:none;font-size:.82rem;color:var(--green-700);margin-top:12px;text-align:center">✓ Thank you — this is a mockup, so nothing was sent.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap" style="padding:0">
+    <div class="foot">
+      <div>
+        <img src="assets/logo.png" alt="Hannah's Hands">
+        <p>Bespoke event planning where service meets luxury. Delivering elegant experiences with excellence across the UK.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#about">About</a><a href="#services">Services</a><a href="#work">Portfolio</a><a href="#quotes">Testimonials</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="#contact">Book a consultation</a><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">hannah'shands@gmail.com</a>
+      </div>
+    </div>
+    <div class="copy">© 2026 Hannah's Hands Event Company · <span class="gold">Where service meets luxury</span></div>
+  </div>
+</footer>
+
+</body>
+</html>

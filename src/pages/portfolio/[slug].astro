@@ -1,0 +1,87 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { reader, eventImage, CATEGORY_LABELS } from '../../lib/reader';
+
+export async function getStaticPaths() {
+  const events = await reader.collections.events.all();
+  return events.map((e) => ({ params: { slug: e.slug }, props: { event: e.entry } }));
+}
+
+const { event } = Astro.props;
+const settings = (await reader.singletons.settings.read())!;
+const categoryLabel = CATEGORY_LABELS[event.category] ?? event.category;
+const paragraphs = (event.story ?? '')
+  .split(/\n{2,}/)
+  .map((p) => p.trim())
+  .filter(Boolean);
+
+const meta = [
+  { label: 'Category', value: categoryLabel },
+  { label: 'Year', value: event.year },
+  { label: 'Location', value: event.location },
+  { label: 'Client', value: event.client },
+].filter((m) => m.value);
+---
+<Layout title={`${event.title} — Hannah's Hands`} description={event.summary}>
+  <Header />
+
+  <section class="banner" style={`background-image:linear-gradient(180deg,rgba(9,30,22,.35),rgba(9,30,22,.9)),url(${eventImage(event.coverImage)})`}>
+    <div class="wrap">
+      <a class="back" href="/portfolio">← Back to portfolio</a>
+      <span class="k">{categoryLabel}</span>
+      <h1>{event.title}</h1>
+    </div>
+  </section>
+
+  <section class="body pad">
+    <div class="wrap grid">
+      <article>
+        <p class="lead">{event.summary}</p>
+        {paragraphs.map((p) => <p>{p}</p>)}
+        {paragraphs.length === 0 && (
+          <p class="soon">A full case study for this event is on the way. Want to hear how we
+             delivered it? <a href="/contact">Get in touch</a>.</p>
+        )}
+      </article>
+      <aside>
+        <div class="details">
+          <h3>Event details</h3>
+          {meta.map((m) => (
+            <div class="row"><span class="l">{m.label}</span><span class="v">{m.value}</span></div>
+          ))}
+        </div>
+        <a href="/contact" class="pill pill--gold book">Plan a similar event →</a>
+      </aside>
+    </div>
+  </section>
+
+  <CtaBand />
+  <Footer email={settings.email} instagram={settings.instagram} facebook={settings.facebook} tagline={settings.tagline} />
+</Layout>
+
+<style>
+  .banner{background-size:cover;background-position:center;color:#f3ecdc;padding:110px 0 56px}
+  .banner .back{display:inline-block;color:#e8e2d2;font-size:.82rem;letter-spacing:.04em;margin-bottom:26px}
+  .banner .back:hover{color:var(--gold-2)}
+  .banner .k{display:block;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-2);margin-bottom:8px}
+  .banner h1{font-size:clamp(2.3rem,4.6vw,3.4rem);color:#fbf6ea;max-width:20ch}
+
+  .body{background:var(--cream)}
+  .body .grid{display:grid;grid-template-columns:1.6fr .8fr;gap:52px;align-items:start}
+  article .lead{font-family:var(--serif);font-size:1.3rem;color:var(--green-800);line-height:1.5;margin-bottom:22px}
+  article p{color:var(--muted);margin-bottom:16px}
+  article .soon a{color:var(--gold);text-decoration:underline}
+
+  aside .details{background:var(--paper);border:1px solid var(--cream-2);border-radius:18px;padding:28px 26px;margin-bottom:20px}
+  aside .details h3{font-size:1.05rem;color:var(--green-800);margin-bottom:16px}
+  aside .row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--cream-2);font-size:.9rem}
+  aside .row:first-of-type{border-top:none}
+  aside .row .l{color:var(--muted-2);letter-spacing:.04em}
+  aside .row .v{color:var(--green-800);text-align:right;font-weight:500}
+  aside .book{width:100%;justify-content:center}
+
+  @media(max-width:860px){ .body .grid{grid-template-columns:1fr;gap:34px} }
+</style>

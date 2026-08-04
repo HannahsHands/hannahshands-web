@@ -1,0 +1,32 @@
+---
+import { eventImage, CATEGORY_LABELS } from '../lib/reader';
+interface Props {
+  slug: string;
+  title: string;
+  category: string;
+  coverImage: string | null;
+  year?: string;
+}
+const { slug, title, category, coverImage, year } = Astro.props;
+---
+<a class="cat" data-category={category} href={`/portfolio/${slug}`}>
+  <img src={eventImage(coverImage)} alt={title} loading="lazy" />
+  <div class="txt">
+    <div class="k">{CATEGORY_LABELS[category] ?? category}</div>
+    <h3>{title}</h3>
+    {year && <span class="yr">{year}</span>}
+  </div>
+</a>
+
+<style>
+  .cat{position:relative;display:block;border-radius:18px;overflow:hidden;min-height:300px;
+    box-shadow:0 30px 60px -34px rgba(0,0,0,.7)}
+  .cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:.5s}
+  .cat:hover img{transform:scale(1.06)}
+  .cat::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(9,30,22,.05),rgba(9,30,22,.86))}
+  .txt{position:absolute;left:22px;bottom:20px;right:22px;z-index:2}
+  .k{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-2)}
+  h3{color:#fff;font-size:1.35rem;margin-top:4px}
+  .yr{display:block;color:#d8d2c2;font-size:.8rem;margin-top:6px}
+</style>

@@ -1,0 +1,132 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { reader } from '../lib/reader';
+
+const settings = (await reader.singletons.settings.read())!;
+
+const values = [
+  { title: 'Excellence', body: 'Delivering nothing short of perfection in every event we handle.' },
+  { title: 'Integrity', body: 'Building trust through transparency and honesty in all our interactions.' },
+  { title: 'Creativity', body: 'Crafting unique and innovative experiences tailored to our clients’ needs.' },
+  { title: 'Client-Centricity', body: 'Putting our clients at the heart of every decision we make.' },
+  { title: 'Collaboration', body: 'Working hand-in-hand with clients, vendors and teams to achieve outstanding results.' },
+  { title: 'Luxury', body: 'Every planning detail reflects sophistication, excellence and exclusivity.' },
+];
+---
+<Layout title="About — Hannah's Hands" description="Eight years of bespoke event planning across the UK. Meet the founder and the values behind Hannah's Hands.">
+  <Header />
+
+  <section class="phero">
+    <div class="wrap">
+      <span class="eyebrow">Our Story</span>
+      <h1>About Hannah's Hands</h1>
+      <p>Where service meets luxury — and every detail is intentional.</p>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="about pad">
+    <div class="wrap grid">
+      <div class="mark"><img src="/logo.png" alt="Hannah's Hands crest" /></div>
+      <div>
+        <span class="ornament">✦ ✦ ✦</span>
+        <h2>Delivering elegant experiences with excellence</h2>
+        <p>Since our inception, Hannah's Hands has been synonymous with exceptional event
+           planning and execution. Our journey began with pro bono projects, where we honed
+           our craft and built a reputation for excellence.</p>
+        <p>Today, with over eight years of experience, we are proud to have partnered with
+           organisations across industries to deliver events that exceed expectations. Our
+           service is customer-centric and heavy on vendor collaboration.</p>
+        <div class="founder">
+          <div class="av">OO</div>
+          <div>
+            <b>Olajumoke H. Osadola</b>
+            <span>Founder &amp; Chief Planner</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION / MISSION -->
+  <section class="vm pad">
+    <div class="wrap grid2">
+      <div class="card">
+        <span class="ornament">✦ OUR VISION</span>
+        <p>To be the premier corporate event planning company that bridges the gap between
+           our clients' ambitions and exceptional event experiences — creating transformative
+           moments that inspire and connect people worldwide.</p>
+      </div>
+      <div class="card">
+        <span class="ornament">✦ OUR MISSION</span>
+        <p>To relieve our clients of event planning stress by delivering meticulously designed
+           and flawlessly executed events that leave a lasting impression on their guests.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values pad">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="ornament">✦ OUR VALUES ✦</span>
+        <h2>Six pillars that guide us</h2>
+        <p>The principles that define our identity and shape every event we deliver.</p>
+      </div>
+      <div class="val-grid">
+        {values.map((v, i) => (
+          <div class="val">
+            <div class="num">{String(i + 1).padStart(2, '0')}</div>
+            <h3>{v.title}</h3>
+            <p>{v.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+  <Footer email={settings.email} instagram={settings.instagram} facebook={settings.facebook} tagline={settings.tagline} />
+</Layout>
+
+<style>
+  .phero{background:radial-gradient(120% 140% at 80% -10%,var(--green-700),var(--green-900) 62%);
+    color:#f3ecdc;text-align:center;padding:84px 0 74px}
+  .phero h1{font-size:clamp(2.3rem,4.6vw,3.6rem);color:#fbf6ea;margin:16px 0 14px}
+  .phero p{color:#d6cfbe;max-width:56ch;margin:0 auto;font-size:1.05rem}
+
+  .about{background:var(--cream)}
+  .about .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+  .about .mark{background:var(--paper);border:1px solid var(--cream-2);border-radius:22px;padding:44px;
+    text-align:center;box-shadow:0 30px 60px -40px rgba(60,45,15,.4)}
+  .about .mark img{width:230px;margin:0 auto}
+  .about h2{font-size:clamp(2rem,3.4vw,2.6rem);color:var(--green-800);margin:14px 0 18px}
+  .about p{color:var(--muted);margin-bottom:16px}
+  .founder{display:flex;align-items:center;gap:14px;margin-top:26px;padding-top:24px;border-top:1px solid var(--cream-2)}
+  .founder .av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    display:grid;place-items:center;font-family:var(--serif);color:#3a2c0e;font-size:1.2rem}
+  .founder b{display:block;font-family:var(--serif);color:var(--green-800);font-size:1.05rem}
+  .founder span{font-size:.8rem;color:var(--muted-2);letter-spacing:.04em}
+
+  .vm{background:var(--paper)}
+  .vm .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .vm .card{background:var(--cream);border:1px solid var(--cream-2);border-radius:18px;padding:38px 34px}
+  .vm .card .ornament{display:block;margin-bottom:16px}
+  .vm .card p{color:var(--muted);font-family:var(--serif);font-size:1.18rem;line-height:1.5}
+
+  .values{background:var(--cream)}
+  .val-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .val{background:var(--paper);border:1px solid var(--cream-2);border-radius:18px;padding:30px 28px}
+  .val .num{font-family:var(--serif);font-size:1.4rem;color:var(--gold);margin-bottom:8px}
+  .val h3{color:var(--green-800);font-size:1.2rem;margin-bottom:8px}
+  .val p{color:var(--muted);font-size:.9rem}
+
+  @media(max-width:900px){
+    .about .grid,.vm .grid2{grid-template-columns:1fr;gap:34px}
+    .val-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:560px){ .val-grid{grid-template-columns:1fr} }
+</style>

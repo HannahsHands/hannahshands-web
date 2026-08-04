@@ -1,0 +1,52 @@
+/* ============================================================
+   Hannah's Hands — design tokens + base
+   Ported from the approved mockup. Fonts are self-hosted
+   (see Layout.astro). Component styles live with their .astro files.
+   ============================================================ */
+:root{
+  /* palette */
+  --green-900:#0d271e; --green-800:#123a2c; --green-700:#1a4a39;
+  --cream:#f6f0e3; --cream-2:#efe6d3; --paper:#fbf7ee;
+  --gold:#c39a4c; --gold-2:#d9b877; --gold-soft:#e9d3a6;
+  --ink:#222a20; --muted:#463f30; --muted-2:#5c5342;
+
+  /* type */
+  --serif:"Playfair Display Variable","Playfair Display",Georgia,serif;
+  --sans:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+  /* layout */
+  --maxw:1200px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);color:var(--ink);background:var(--cream);
+  line-height:1.65;font-weight:300;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:.2px}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.eyebrow{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;font-weight:500;color:var(--gold)}
+
+/* reusable pill button */
+.pill{display:inline-flex;align-items:center;gap:.5em;padding:.85em 1.6em;border-radius:100px;
+  font-family:var(--sans);font-weight:500;font-size:.9rem;letter-spacing:.02em;cursor:pointer;
+  border:1px solid transparent;transition:.25s}
+.pill--gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#3a2c0e;
+  box-shadow:0 10px 26px -12px rgba(180,140,60,.7)}
+.pill--gold:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(180,140,60,.8)}
+.pill--ghost{background:transparent;border-color:rgba(255,255,255,.4);color:#fff}
+.pill--ghost:hover{background:rgba(255,255,255,.1)}
+.pill--ghost-dark{background:transparent;border-color:var(--gold);color:var(--green-800)}
+.pill--ghost-dark:hover{background:rgba(195,154,76,.12)}
+
+/* shared section utilities */
+.pad{padding:96px 0}
+.sec-head{max-width:640px;margin:0 auto 54px;text-align:center}
+.sec-head h2{font-size:clamp(2rem,3.6vw,3rem);margin:14px 0 12px;color:var(--green-800)}
+.sec-head p{color:var(--muted);font-size:1.02rem}
+.ornament{color:var(--gold);letter-spacing:.4em;font-size:.8rem}
+@media(max-width:900px){ .pad{padding:72px 0} }

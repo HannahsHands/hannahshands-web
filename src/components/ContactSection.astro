@@ -1,0 +1,118 @@
+---
+interface Props {
+  email: string;
+  instagram: string;
+  facebook: string;
+  heading?: string;
+  intro?: string;
+}
+const {
+  email,
+  instagram,
+  facebook,
+  heading = 'Start the conversation',
+  intro = 'Share a few details and Olajumoke will personally be in touch to plan your consultation.',
+} = Astro.props;
+---
+<section class="contact pad" id="contact">
+  <div class="wrap grid">
+    <div class="info">
+      <span class="ornament">✦ GET IN TOUCH ✦</span>
+      <h2>{heading}</h2>
+      <p>{intro}</p>
+      <div class="cinfo"><div class="ic">✉</div><div><b>Email</b><span>{email}</span></div></div>
+      <div class="cinfo"><div class="ic">◎</div><div><b>Instagram</b><span>@{instagram}</span></div></div>
+      <div class="cinfo"><div class="ic">f</div><div><b>Facebook</b><span>@{facebook}</span></div></div>
+    </div>
+
+    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="hh-form">
+      <!-- Netlify Forms plumbing -->
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+      <div class="row2">
+        <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" required placeholder="Your name" /></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" name="email" required placeholder="you@email.com" /></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="f-type">Event type</label>
+          <select id="f-type" name="event_type">
+            <option>Conference / Summit</option>
+            <option>Gala / Awards</option>
+            <option>Corporate / Networking</option>
+            <option>Leadership / Faith</option>
+            <option>Charity / Concert</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-date">Preferred date</label><input id="f-date" name="preferred_date" placeholder="e.g. Oct 2026" /></div>
+      </div>
+      <div class="field"><label for="f-msg">Tell us about your event</label><textarea id="f-msg" name="message" rows="4" placeholder="Guests, location, vision…"></textarea></div>
+      <button class="pill pill--gold" type="submit">Request My Consultation</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+      <p class="form-fallback">Prefer email? <a href={`mailto:${email}`}>Write to us directly</a>.</p>
+    </form>
+  </div>
+</section>
+
+<script define:vars={{ mail: email }}>
+  const form = document.getElementById('hh-form');
+  if (form) {
+    const status = form.querySelector('.form-status');
+    const btn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.className = 'form-status show';
+      status.textContent = 'Sending…';
+      btn.disabled = true;
+      try {
+        const body = new URLSearchParams(new FormData(form)).toString();
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body,
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        form.reset();
+        status.className = 'form-status show ok';
+        status.textContent = '✓ Thank you — your enquiry is on its way. Olajumoke will be in touch shortly.';
+      } catch (err) {
+        status.className = 'form-status show err';
+        status.innerHTML =
+          'Sorry, that did not send. Please email us at <a href="mailto:' + mail + '">' + mail + '</a> and we will get right back to you.';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .contact{background:var(--paper)}
+  .contact .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px}
+  .contact h2{font-size:clamp(1.9rem,3.2vw,2.6rem);color:var(--green-800);margin:12px 0 16px}
+  .contact .info p{color:var(--muted);margin-bottom:22px;max-width:40ch}
+  .cinfo{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+  .cinfo .ic{width:42px;height:42px;border-radius:12px;background:var(--cream);border:1px solid var(--cream-2);
+    display:grid;place-items:center;color:var(--gold);flex:none}
+  .cinfo b{display:block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green-800)}
+  .cinfo span{font-size:.95rem;color:var(--muted)}
+  form{background:var(--cream);border:1px solid var(--cream-2);border-radius:20px;padding:34px}
+  .hp{position:absolute !important;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden}
+  .field{margin-bottom:16px}
+  label{display:block;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-bottom:7px}
+  input,select,textarea{width:100%;padding:13px 15px;border:1px solid var(--cream-2);border-radius:11px;
+    background:var(--paper);font-family:var(--sans);font-size:.92rem;color:var(--ink);font-weight:300}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  form .pill--gold{width:100%;justify-content:center;margin-top:6px;border:none}
+  form .pill--gold:disabled{opacity:.6;cursor:default}
+  .form-status{display:none;font-size:.86rem;margin-top:14px;text-align:center;padding:10px 14px;border-radius:10px}
+  .form-status.show{display:block}
+  .form-status.ok{color:#1f4a37;background:rgba(31,74,55,.09)}
+  .form-status.err{color:#8a3a2a;background:rgba(138,58,42,.09)}
+  .form-status.err a{color:#8a3a2a;text-decoration:underline}
+  .form-fallback{font-size:.82rem;color:var(--muted-2);text-align:center;margin-top:12px}
+  .form-fallback a{color:var(--gold);text-decoration:underline}
+  @media(max-width:900px){ .contact .grid{grid-template-columns:1fr;gap:40px} .row2{grid-template-columns:1fr} }
+</style>

@@ -1,0 +1,49 @@
+---
+interface Props {
+  email: string;
+  instagram: string;
+  facebook: string;
+  tagline: string;
+}
+const { email, instagram, facebook, tagline } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="wrap" style="padding:0">
+    <div class="foot">
+      <div>
+        <img src="/logo.png" alt="Hannah's Hands" />
+        <p>Bespoke event planning where service meets luxury. Delivering elegant
+           experiences with excellence across the UK.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="/#about">About</a>
+        <a href="/#services">Services</a>
+        <a href="/#work">Portfolio</a>
+        <a href="/#quotes">Testimonials</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="/#contact">Book a consultation</a>
+        <a href={`https://instagram.com/${instagram}`} target="_blank" rel="noopener">Instagram</a>
+        <a href={`https://facebook.com/${facebook}`} target="_blank" rel="noopener">Facebook</a>
+        <a href={`mailto:${email}`}>{email}</a>
+      </div>
+    </div>
+    <div class="copy">© {year} Hannah's Hands Event Company · <span class="gold">{tagline}</span></div>
+  </div>
+</footer>
+
+<style>
+  footer{background:var(--green-900);color:#cfc8b6;border-top:1px solid rgba(217,184,119,.16)}
+  .foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding:64px 28px 30px}
+  .foot img{height:64px;margin-bottom:16px}
+  .foot p{font-size:.9rem;max-width:34ch;color:#b0a992}
+  .foot h4{font-family:var(--sans);font-weight:500;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2);margin-bottom:16px}
+  .foot a{display:block;font-size:.9rem;color:#cfc8b6;margin-bottom:10px}
+  .foot a:hover{color:var(--gold-2)}
+  .copy{border-top:1px solid rgba(217,184,119,.14);text-align:center;padding:20px;font-size:.78rem;color:#8f8874;letter-spacing:.03em}
+  .copy .gold{color:var(--gold-2)}
+  @media(max-width:760px){ .foot{grid-template-columns:1fr 1fr} }
+</style>

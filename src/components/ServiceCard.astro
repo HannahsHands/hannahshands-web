@@ -1,0 +1,22 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+}
+const { number, title, description } = Astro.props;
+---
+<div class="svc">
+  <div class="ic">{number}</div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</div>
+
+<style>
+  .svc{background:var(--cream);border:1px solid var(--cream-2);border-radius:18px;padding:32px 28px;transition:.28s;height:100%}
+  .svc:hover{transform:translateY(-4px);box-shadow:0 26px 50px -30px rgba(60,45,15,.5);border-color:var(--gold-soft)}
+  .ic{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#173d2e,#0e2a20);
+    display:grid;place-items:center;color:var(--gold-2);font-family:var(--serif);font-size:1.15rem;margin-bottom:18px}
+  h3{font-size:1.22rem;color:var(--green-800);margin-bottom:8px}
+  p{font-size:.9rem;color:var(--muted)}
+</style>
