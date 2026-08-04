@@ -3,12 +3,9 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 // Content model for Hannah's Hands. Storage is `local` (edit on your machine)
 // and switches to `github` (edit the live site) at deploy time (T10).
 export default config({
-  // Local editing while developing; edit-the-live-site (GitHub) once deployed.
-  // GitHub mode needs the Keystatic GitHub App connected at deploy (T10).
-  storage: import.meta.env.DEV
-    ? { kind: 'local' }
-    : { kind: 'github', repo: { owner: 'HannahsHands', name: 'hannahshands-web' } },
-  // Keystatic Cloud handles the GitHub login for /keystatic on the live site.
+  // Local editing while developing; Keystatic Cloud auth on the live site.
+  // Cloud handles GitHub login with no env vars / custom GitHub app needed.
+  storage: import.meta.env.DEV ? { kind: 'local' } : { kind: 'cloud' },
   cloud: { project: 'hannahs-hands/hannahshands-web' },
   ui: {
     brand: { name: "Hannah's Hands" },
