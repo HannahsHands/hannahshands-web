@@ -1,0 +1,34 @@
+---
+import { blogImage, formatPostDate } from '../lib/reader';
+interface Props {
+  slug: string;
+  title: string;
+  date: string | null;
+  excerpt?: string;
+  coverImage: string | null;
+}
+const { slug, title, date, excerpt, coverImage } = Astro.props;
+---
+<a class="post" href={`/blog/${slug}`}>
+  <div class="thumb"><img src={blogImage(coverImage)} alt={title} loading="lazy" /></div>
+  <div class="body">
+    {date && <span class="date">{formatPostDate(date)}</span>}
+    <h3>{title}</h3>
+    {excerpt && <p>{excerpt}</p>}
+    <span class="more">Read more →</span>
+  </div>
+</a>
+
+<style>
+  .post{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--cream-2);
+    border-radius:18px;overflow:hidden;box-shadow:0 24px 50px -34px rgba(0,0,0,.5);transition:.3s}
+  .post:hover{transform:translateY(-4px);box-shadow:0 34px 60px -34px rgba(0,0,0,.55)}
+  .thumb{aspect-ratio:4/3;overflow:hidden;background:var(--cream)}
+  .thumb img{width:100%;height:100%;object-fit:cover;transition:.5s}
+  .post:hover .thumb img{transform:scale(1.05)}
+  .body{padding:22px 24px 26px}
+  .date{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  h3{font-size:1.3rem;color:var(--green-800);margin:8px 0 10px;line-height:1.2}
+  p{font-size:.92rem;color:var(--muted);margin-bottom:14px}
+  .more{font-size:.82rem;letter-spacing:.05em;color:var(--gold);font-weight:500}
+</style>

@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { reader, publishedPosts } from '../../lib/reader';
+
+const posts = await publishedPosts();
+const settings = (await reader.singletons.settings.read())!;
+---
+<Layout
+  title="Blog — Hannah's Hands"
+  description="Stories, behind-the-scenes and insights from Hannah's Hands Events Company."
+>
+  <Header />
+  <PageHero
+    eyebrow="The Journal"
+    title="Stories & insights"
+    subtitle="Behind the scenes, the thinking, and the moments we're proud of."
+  />
+
+  <section class="wrap listing">
+    {posts.length > 0 ? (
+      <div class="grid">
+        {posts.map((p) => (
+          <BlogCard
+            slug={p.slug}
+            title={p.entry.title}
+            date={p.entry.date}
+            excerpt={p.entry.excerpt}
+            coverImage={p.entry.coverImage}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="empty">
+        <span class="orn">✦ ✦ ✦</span>
+        <h2>New stories are on the way</h2>
+        <p>We're putting together our first posts. In the meantime, follow along on
+           Instagram <a href={`https://instagram.com/${settings.instagram}`}>@{settings.instagram}</a>.</p>
+      </div>
+    )}
+  </section>
+
+  <CtaBand />
+  <Footer email={settings.email} instagram={settings.instagram} facebook={settings.facebook} tagline={settings.tagline} />
+</Layout>
+
+<style>
+  .listing{padding:64px 28px 80px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:30px}
+  .empty{text-align:center;max-width:520px;margin:30px auto 20px}
+  .empty .orn{color:var(--gold);letter-spacing:.4em;font-size:.8rem}
+  .empty h2{font-size:clamp(1.8rem,3vw,2.4rem);color:var(--green-800);margin:16px 0 12px}
+  .empty p{color:var(--muted)}
+  .empty a{color:var(--gold);text-decoration:underline}
+</style>

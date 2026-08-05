@@ -24,3 +24,23 @@ export function eventImage(cover: string | null): string {
   if (!cover) return '/images/hero.jpg';
   return cover.startsWith('/') ? cover : `/images/events/${cover}`;
 }
+
+/** Resolve a stored blog image value to a usable URL (handles bare filename or full path). */
+export function blogImage(img: string | null): string {
+  if (!img) return '/images/hero.jpg';
+  return img.startsWith('/') ? img : `/images/blog/${img}`;
+}
+
+/** Published (non-draft) blog posts, newest first. */
+export async function publishedPosts() {
+  const posts = await reader.collections.posts.all();
+  return posts
+    .filter((p) => !p.entry.draft)
+    .sort((a, b) => (a.entry.date && b.entry.date ? (a.entry.date < b.entry.date ? 1 : -1) : 0));
+}
+
+/** Format an ISO date (YYYY-MM-DD) as e.g. "5 August 2026". */
+export function formatPostDate(date: string | null): string {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}

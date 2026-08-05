@@ -93,5 +93,32 @@ export default config({
         order: fields.integer({ label: 'Sort order', defaultValue: 0 }),
       },
     }),
+    posts: collection({
+      label: 'Blog posts',
+      slugField: 'title',
+      path: 'src/content/posts/*',
+      format: { data: 'yaml' },
+      columns: ['title', 'date'],
+      schema: {
+        title: fields.slug({ name: { label: 'Title' } }),
+        date: fields.date({ label: 'Publish date', defaultValue: { kind: 'today' } }),
+        excerpt: fields.text({ label: 'Short excerpt (shown on the blog list)', multiline: true }),
+        coverImage: fields.image({
+          label: 'Cover image (blog list thumbnail)',
+          directory: 'public/images/blog',
+          publicPath: '/images/blog/',
+        }),
+        gallery: fields.array(
+          fields.image({
+            label: 'Image',
+            directory: 'public/images/blog',
+            publicPath: '/images/blog/',
+          }),
+          { label: 'Images (shown top-to-bottom, full size)', itemLabel: (props) => props.value ?? 'Image' }
+        ),
+        body: fields.text({ label: 'Text (optional — appears under the images)', multiline: true }),
+        draft: fields.checkbox({ label: 'Draft (hidden from the site)', defaultValue: false }),
+      },
+    }),
   },
 });

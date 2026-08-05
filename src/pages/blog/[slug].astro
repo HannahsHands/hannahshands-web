@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { reader, publishedPosts, blogImage, formatPostDate } from '../../lib/reader';
+
+export async function getStaticPaths() {
+  const posts = await publishedPosts();
+  return posts.map((p) => ({ params: { slug: p.slug }, props: { post: p.entry } }));
+}
+
+const { post } = Astro.props;
+const settings = (await reader.singletons.settings.read())!;
+const images = (post.gallery ?? []).filter(Boolean) as string[];
+const paragraphs = (post.body ?? '')
+  .split(/\n{2,}/)
+  .map((p) => p.trim())
+  .filter(Boolean);
+---
+<Layout title={`${post.title} — Hannah's Hands`} description={post.excerpt ?? post.title} image={blogImage(post.coverImage)}>
+  <Header />
+
+  <section class="post-hero">
+    <div class="wrap">
+      <a class="back" href="/blog">← Back to the blog</a>
+      {post.date && <span class="date">{formatPostDate(post.date)}</span>}
+      <h1>{post.title}</h1>
+      {post.excerpt && <p class="lede">{post.excerpt}</p>}
+    </div>
+  </section>
+
+  <article class="content">
+    {images.length > 0 && (
+      <div class="gallery">
+        {images.map((img, i) => (
+          <img src={blogImage(img)} alt={`${post.title} — image ${i + 1}`} loading={i < 2 ? 'eager' : 'lazy'} />
+        ))}
+      </div>
+    )}
+    {paragraphs.length > 0 && (
+      <div class="prose wrap-narrow">
+        {paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    )}
+    {images.length === 0 && paragraphs.length === 0 && (
+      <p class="prose wrap-narrow">This post is being written — check back soon.</p>
+    )}
+  </article>
+
+  <CtaBand />
+  <Footer email={settings.email} instagram={settings.instagram} facebook={settings.facebook} tagline={settings.tagline} />
+</Layout>
+
+<style>
+  .post-hero{background:radial-gradient(120% 120% at 80% 0%,var(--green-700),var(--green-900) 60%);
+    color:#f3ecdc;padding:104px 0 54px}
+  .post-hero .back{display:inline-block;color:#e8e2d2;font-size:.82rem;letter-spacing:.04em;margin-bottom:22px}
+  .post-hero .back:hover{color:var(--gold-2)}
+  .post-hero .date{display:block;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2);margin-bottom:10px}
+  .post-hero h1{font-size:clamp(2.2rem,4.6vw,3.3rem);color:#fbf6ea;max-width:22ch}
+  .post-hero .lede{color:#d6cfbe;margin-top:16px;max-width:56ch;font-size:1.05rem}
+
+  .content{background:var(--cream);padding:56px 20px 80px}
+  /* Images shown as-is: full within a comfortable column, never cropped */
+  .gallery{display:flex;flex-direction:column;align-items:center;gap:26px;max-width:720px;margin:0 auto}
+  .gallery img{width:100%;height:auto;border-radius:14px;
+    box-shadow:0 30px 60px -34px rgba(0,0,0,.5);border:1px solid var(--cream-2)}
+
+  .wrap-narrow{max-width:680px;margin:0 auto}
+  .prose{margin-top:40px}
+  .prose p{color:var(--muted);margin-bottom:18px;font-size:1.02rem;line-height:1.75}
+</style>
