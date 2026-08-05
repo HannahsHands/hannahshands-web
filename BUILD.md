@@ -210,7 +210,7 @@ npm run build      # production build into dist/
   also has a spam honeypot and an email-fallback link if a submission ever fails.
 - **Email address:** the deck listed `hannah'shands@gmail.com`, which is not a valid Gmail
   (apostrophes aren't allowed). The site currently uses
-  `olajumokeh.osadola@hannahshandseventco.com` — confirm that inbox receives mail, or
+  `olajumokeh.osadola@hannahshandseventsco.com` — confirm that inbox receives mail, or
   change it in the CMS (Site settings → email).
 - **Pushes** currently authenticate as the collaborator account `conceptson84-svg`.
 
@@ -238,7 +238,7 @@ npm run build      # production build into dist/
 | GitHub repo | https://github.com/HannahsHands/hannahshands-web (public) |
 | Keystatic Cloud project | `hannahs-hands/hannahshands-web` |
 | Calendly | https://calendly.com/olajumokeh-osadola-hannahshandseventsco/discovery-consultation |
-| Contact email (current) | olajumokeh.osadola@hannahshandseventco.com |
+| Contact email (current) | olajumokeh.osadola@hannahshandseventsco.com |
 | Netlify form name | `contact` |
 | Analytics env var | `PUBLIC_CF_BEACON_TOKEN` (unset = off) |
 | Local project path | `Hannahs-Hands/HH-Web` |
