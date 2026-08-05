@@ -202,9 +202,12 @@ npm run build      # production build into dist/
 - **Old system git (2.10.1)** on the build machine fails HTTPS pushes with
   `RPC failed; HTTP 400 / curl 56`. Fix (already applied to the repo):
   `git config http.postBuffer 524288000`.
-- **Contact form** relies on Netlify Forms — remember to set the **email notification** in
-  Netlify or you won't see enquiries in your inbox. It also has a spam honeypot and an
-  email fallback link if a submission ever fails.
+- **Contact form (Netlify Forms) needs two things** with our Astro SSR adapter, or POSTs
+  404: (1) **Form detection** must be **enabled** in Netlify (Site configuration → Forms —
+  off by default on newer sites), and (2) the static `public/__forms.html` file registers
+  the `contact` form and its fields. Both are in place. After that, set the **email
+  notification** (Netlify → Forms → contact) or you won't be emailed enquiries. The form
+  also has a spam honeypot and an email-fallback link if a submission ever fails.
 - **Email address:** the deck listed `hannah'shands@gmail.com`, which is not a valid Gmail
   (apostrophes aren't allowed). The site currently uses
   `olajumokeh.osadola@hannahshandseventco.com` — confirm that inbox receives mail, or

@@ -6,8 +6,8 @@ import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
-  // Swap to the real domain once it's registered (see ENG-PLAN founder tasks).
-  site: 'https://hannahshands.netlify.app',
+  // Custom domain (added to Netlify). Drives canonical URLs, OG image + sitemap.
+  site: 'https://hannahshandseventsco.com',
   // Netlify adapter enables the on-demand routes Keystatic's admin needs.
   adapter: netlify(),
   integrations: [react(), keystatic(), sitemap()],
