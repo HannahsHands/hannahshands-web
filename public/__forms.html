@@ -1,0 +1,30 @@
+<!--
+  Netlify Forms detection file.
+  With Astro's Netlify (SSR) adapter, Netlify's form-detection bot does not reliably
+  register forms from the built pages. This static file IS scanned at deploy time, so
+  it registers the "contact" form and its fields. The visible form (ContactSection.astro)
+  submits via AJAX to "/"; Netlify then intercepts and stores the submission here.
+  Field names MUST match the real form exactly.
+-->
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><title>Netlify form registration</title></head>
+  <body>
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input name="bot-field" />
+      <input name="name" />
+      <input type="email" name="email" />
+      <select name="event_type">
+        <option>Conference / Summit</option>
+        <option>Gala / Awards</option>
+        <option>Corporate / Networking</option>
+        <option>Leadership / Faith</option>
+        <option>Charity / Concert</option>
+        <option>Other</option>
+      </select>
+      <input name="preferred_date" />
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>
